@@ -7,3 +7,6 @@ cookies/*
 
 # Ignore .tmp Files
 *.tmp
+
+# Ignore MultiRequest Download Files
+multirequest/example/downloads/*
