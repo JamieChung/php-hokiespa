@@ -2,7 +2,9 @@
 require 'config.php';
 require_once ('multirequest/example/config.php');
 
-define('COOKIE_FILE', tempnam("./cookies/", "COOKIES"));
+// define('COOKIE_FILE', tempnam("./cookies/", "COOKIES"));
+
+define('COOKIE_FILE', './cookies/'.md5(2));
 
 /***************************************************************
   DEBUG METHODS
@@ -75,6 +77,17 @@ function mainPage (MultiRequest_Request $request, MultiRequest_Handler $handler)
 	$cookies = $request->getRespopnseCookies();
 	$request = new MultiRequest_Request('https://banweb.banner.vt.edu/ssb/prod/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu');
 	$request->setCookiesStorage(COOKIE_FILE);
+	
+	$headers = array($headers[5], $headers[6], $headers[7]);
+	$headers[] = 'Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5';
+	$headers[] = 'Cache-Control: no-cache';
+	$headers[] = 'Connection: Keep-Alive';
+	$headers[] = 'Keep-Alive: 300';
+	$headers[] = 'Accept-Charset: UTF-8,Windows-1251,ISO-8859-1;q=0.7,*;q=0.7';
+	$headers[] = 'Accept-Language: ru,en-us,en;q=0.5';
+	$headers[] = 'Pragma:';
+	
+	$request->addHeaders($headers);
 	$handler->pushRequestToQueue($request);
 	
 	$request->onComplete(function(MultiRequest_Request $request, MultiRequest_Handler $handler){
@@ -84,6 +97,10 @@ function mainPage (MultiRequest_Request $request, MultiRequest_Handler $handler)
 			exit($e->getMessage());	
 		}
 		
+		// echo '<pre>';
+		// var_dump($request->getResponseHeaders());
+		// exit;
+		// 
 		echo '<pre>';
 		var_dump($request->getContent());
 		exit;
