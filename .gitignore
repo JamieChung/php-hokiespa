@@ -1,0 +1,9 @@
+
+# Ignore Base Config File
+config.php
+
+# Ignore Cookies
+cookies/*
+
+# Ignore .tmp Files
+*.tmp
